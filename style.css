@@ -1,0 +1,129 @@
+
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-image: url("assets/pexels-pixabay-326333.jpg");
+    background-size: auto;
+}
+
+header {
+    height: 10vh;
+    background-color: #0c0101;
+    color: #ffd966;
+}
+
+.head {
+    list-style-type: none;
+    display: flex;
+    justify-content:space-around;}
+
+ul > li {
+    flex-basis: 100%;
+    height: 10vh;
+    text-align: center;
+    display: inline;
+    margin: auto;
+    font-size: 5vh;
+    line-height: 10vh;
+}
+
+ul > li:hover {
+    background-color: #ffd966;
+    color: #66666691;
+}
+
+li:nth-child(1) {
+    background-color: #66666667;
+}
+li:nth-child(2) {
+    background-color: #7979794b;
+}
+li:nth-child(3) {
+    background-color: #9999991c;
+}
+
+#stickyNote {
+    width: 30vh;
+    height: 30vh;
+    background-color: #ffd966;
+    margin: 2em;
+}
+
+#noteHead {
+    background-color: #3a39391c;
+    text-align: right;
+}
+
+#noteHead ul li {
+    background-color: #9999991c;
+    color: #0c0101;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
+
+#noteHead ul li i:hover {
+    background-color: #301212c9;
+    color:  #ffd966;
+    padding: 0 5px;
+}
+
+#noteHead ul li i {
+    padding: 0 5px;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
+
+#noteColor {
+    display: flex;
+    position: absolute;
+    width: 30vh;
+}
+
+#noteColor div {
+    height: 2rem;
+    flex-basis: 100%;
+    z-index: 9999;
+}
+
+#noteColor div:hover {
+    transform: scale(1.2);
+}
+
+.noteColor1 {
+    background-color: #abd0ec;
+}
+
+.noteColor2 {
+    background-color: #a8c498;
+}
+
+.noteColor3 {
+    background-color: #f8ced8;
+}
+
+.noteColor4 {
+    background-color: #ccb6fa;
+}
+
+.noteColor5 {
+    background-color: #ffd966;
+}
+
+#noteContentContainer {
+    margin: auto;
+    width: 26vh;
+    height: 23vh;
+}
+
+#noteContent {
+    background-color: rgba(255, 166, 0, 0);
+    border: none;
+}
+
+textarea:focus {
+    outline: none !important;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Notes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+
+    <header>
+        <ul class="head">
+            <li id="newNoteBtn" title="New Note"><i class="fas fa-plus"></i></li>
+            <li id="deleteAllBtn" title="Delete all"><i class="far fa-trash-alt"></i></li>
+            <li id="infoBtn" title="User Manual"><i class="fas fa-info"></i></li>
+        </div>
+    </header>
+
+    <main>
+        <div id="stickyNote">
+            <div id="noteHead">
+                <ul>
+                    <li><i id="palette" class="fas fa-palette"></i></li>
+                    <li><i id="" class="far fa-trash-alt"></i></li>
+                </ul>
+                <div class="hide" id="noteColor">
+                    <div id="blueNote" class="noteColor1"></div>
+                    <div id="greenNote" class="noteColor2"></div>
+                    <div id="pinkNote" class="noteColor3"></div>
+                    <div id="purpleNote" class="noteColor4"></div>
+                    <div id="yellowNote" class="noteColor5"></div>
+                </div>
+                    <div id="noteContentContainer">
+                        <textarea id="noteContent" cols="22" rows="11"></textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="index.js"></script>
+</body>
+</html>
