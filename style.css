@@ -46,50 +46,84 @@ li:nth-child(3) {
     background-color: #9999991c;
 }
 
-#stickyNote {
+.infoContainer {
+    display: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: absolute;
+    background-color: white;
+    width: inherit;
+    right: 0;
+    border-radius: 10px;
+}
+
+.infoContainer ol li {
+    font-size: 1.2 rem;
+    display: block;
+    padding: 5px;
+}
+
+.infoContainer ol li i {
+    color: rgb(136, 4, 4);
+    padding: 5px
+}
+
+.infoContainer h4 {
+    font-size: 1.6 rem;
+    padding: 5px;
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.stickyNote {
     width: 30vh;
     height: 30vh;
     background-color: #ffd966;
     margin: 2em;
 }
 
-#noteHead {
+.noteHead {
     background-color: #3a39391c;
     text-align: right;
+    max-height: 2rem;
 }
 
-#noteHead ul li {
+.noteHead ul li {
     background-color: #9999991c;
     color: #0c0101;
     font-size: 1.2rem;
     line-height: 2rem;
 }
 
-#noteHead ul li i:hover {
+.noteHead ul li i:hover {
     background-color: #301212c9;
     color:  #ffd966;
     padding: 0 5px;
 }
 
-#noteHead ul li i {
+.noteHead ul li i {
     padding: 0 5px;
     font-size: 1.2rem;
     line-height: 2rem;
 }
 
-#noteColor {
-    display: flex;
+.noteColor {
+    display: none;
     position: absolute;
     width: 30vh;
 }
 
-#noteColor div {
+.noteColor div {
     height: 2rem;
     flex-basis: 100%;
     z-index: 9999;
 }
 
-#noteColor div:hover {
+.noteColor div:hover {
     transform: scale(1.2);
 }
 
@@ -113,17 +147,37 @@ li:nth-child(3) {
     background-color: #ffd966;
 }
 
-#noteContentContainer {
+.noteContentContainer {
     margin: auto;
     width: 26vh;
     height: 23vh;
 }
 
-#noteContent {
+textarea, textarea:focus {
+    height: inherit;
+    width: inherit;
     background-color: rgba(255, 166, 0, 0);
     border: none;
 }
 
 textarea:focus {
     outline: none !important;
+}
+
+@media only screen and (min-width: 900px) {
+    body{
+        background-size: cover;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    body{
+        background-size: contain;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    body{
+        background-size: contain;
+    }
 }
