@@ -18,7 +18,7 @@
     </header>
 
     <div>
-        <div class="infoContainer">
+        <div class="hide infoContainer">
             <h4>Nav buttons:</h4>
             <ol>
                 <li> <i class="fas fa-plus"></i> button adds a new sticky note.</li>
@@ -38,9 +38,9 @@
     <main>
         <div id="0" class="stickyNote">
             <div class="noteHead">
-                <ul>
-                    <li><i class="far fas fa-palette colorBtn"></i></li>
-                    <li><i class="delete far fa-trash-alt"></i></li>
+                <ul class="headBtns">
+                    <li class="list-item"><i class="far fas fa-palette colorBtn"></i></li>
+                    <li class="list-item"><i class="delete far fa-trash-alt"></i></li>
                 </ul>
                 <div class="noteColor">
                     <div class="noteColor1"></div>
@@ -49,9 +49,9 @@
                     <div class="noteColor4"></div>
                     <div class="noteColor5"></div>
                 </div>
-                    <div class="noteContentContainer">
-                        <textarea class="noteContent" placeholder="Your notes..."></textarea>
-                </div>
+            </div>
+            <div class="noteContentContainer">
+                <textarea class="noteContent" placeholder="Your notes..."></textarea>
             </div>
         </div>
     </main>
