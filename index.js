@@ -5,21 +5,15 @@ let note = document.querySelectorAll(".stickyNote");
 let newNoteBtn = document.getElementById("newNoteBtn");
 let main = document.querySelector("main");
 let notesNodeList = main.childNodes;  //live node list - dynamically added html elements get displayed right away
-console.log(notesNodeList)
+
 //////////////user manual button function
-// let infoBtn = document.getElementById("infoBtn");
-// let infoSec = document.querySelector(".infoContainer");
+let infoBtn = document.getElementById("infoBtn");
+let infoSec = document.querySelector(".infoContainer");
 
-// infoBtn.addEventListener("click", function () {
-//   infoDisplay();
-// });
+infoBtn.addEventListener("click", function () {
+  infoSec.style.display ==="none" ? infoSec.style.display = "block" : infoSec.style.display = "none";
+});
 
-// infoDisplay = () => {
-//  infoSec.style.display ==="none" ? infoSec.style.display = "block" : infoSec.style.display = "none";
-// }
-
-//.local storage setup
-////////local storage setup
 
 function setIdToNotes(id) {
   let clone = createNewNote();
@@ -27,45 +21,6 @@ function setIdToNotes(id) {
     clone.setAttribute("id", id);
   }
   return clone; 
-}
-
-function addOldNotesToDOM(note, id) {
-  let clone = setIdToNotes(id); 
-  Array.from(Array.from(clone.children)
-    .filter(el => el.className == "noteContentContainer")[0].children)
-    .filter(el => el.classList.contains("noteContent"))[0].value = note.content
-    clone.style.backgroundColor = note.color;
-}
-
-store = (e) => {
-  let notesArray = getNotesArray();
-  let note = e.target.parentNode.parentNode;
-  let id = note.id;
-  let noteContent = e.target.value;
-  let noteColor = note.style.backgroundColor.value;
-
-  let notesObj = {
-    content: noteContent,
-    color: noteColor
-  };
-
-  localStorage.setItem(id, JSON.stringify(notesObj));
-
-  if (!notesArray.includes(id)) {
-    notesArray.push(id);
-    localStorage.setItem("notesArray", JSON.stringify(notesArray))
-  }
-}
-
-getNotesArray = () => {
-  let notesArray = localStorage.getItem("notesArray");
-  if (!notesArray){
-    notesArray = [];
-    localStorage.setItem("notesArray", JSON.stringify(notesArray));
-  } else {
-    notesArray = JSON.parse(notesArray);
-  }
-  return notesArray;
 }
 
 /////////new note  - navbar "+" button
@@ -77,6 +32,7 @@ function createNewNote () {
   let clone = note[0].cloneNode(true);
   clone.id = noteCount;
   clone.classList.add("stickyNote");
+  clone.classList.remove("hide");
   main.appendChild(clone);
 
   ///delete feature of the single note   //accesing trash button on the note via live notes nodelist
@@ -102,7 +58,7 @@ function createNewNote () {
     .filter(el => el.classList.contains("noteContent"))[0]; 
 
   noteContent.value = "";
-  noteContent.addEventListener("onchange", store);
+  noteContent.addEventListener("change", (e) => store(e));
   //noteContent.addEventListener("onchange", notSavedAlert)
 }
 
@@ -134,12 +90,10 @@ function showColors (e) {
     colorChoice.style.display = "flex";
     changeNoteColor(e);
 }
-// if (e.target.id !== colorChoice) {
-//   colorChoice.style.display = 'none';
-// }
 };
 
 changeNoteColor = (e) => {
+  let colorChoice = e.target.parentNode.parentNode.nextElementSibling
   let colors = e.target.parentNode.parentNode.nextElementSibling.children
   let colorsArr = Array.from(colors);
   let note = e.target.parentNode.parentNode.parentNode.parentNode
@@ -150,8 +104,11 @@ colorsArr.forEach(el => {
     el.getAttribute("class") === "noteColor3" ? note.style.backgroundColor = "#f8ced8" : 
     el.getAttribute("class") === "noteColor4" ? note.style.backgroundColor = "#ccb6fa" : 
     el.getAttribute("class") === "noteColor5" ? note.style.backgroundColor = "#ffd966" : false;
-  colorChoice.style.display === "none";
-})
+
+    if ( e.target !== colorChoice) {
+      colorChoice.style.display = 'none';
+    }
+  })
 })}
 
 /////////////feature to delete all notes
@@ -173,6 +130,33 @@ deleteAllNotes = () => {
 
 ////////local storage setup
 
+const store = (e) => {
+  let notesArray = getNotesArray();
+  let note = e.target.parentNode.parentNode;
+  let id = note.id;
+  let noteContent = e.target.value;
+  let noteColor =  getComputedStyle(note).backgroundColor;
+
+  let notesObj = {
+    id: id,
+    content: noteContent,
+    color: noteColor
+  };
+
+  if (notesArray === []){
+    notesArray.push(notesObj);
+    localStorage.setItem("notesArray", JSON.stringify(notesArray))
+  } else {
+    notesArray.forEach(el => {
+      if (el.id === id){
+        el.content = content;
+        el.color = color;
+      }
+    })
+    localStorage.setItem("notesArray", JSON.stringify(notesArray))
+  }
+}
+
 function setIdToNotes(id) {
   let clone = createNewNote();
   if (id) {
@@ -181,30 +165,24 @@ function setIdToNotes(id) {
   return clone; 
 }
 
-function addOldNotesToDOM(note, id) {
-  let clone = setIdToNotes(id); 
-  Array.from(Array.from(clone.children)
+function addOldNotesToDOM() {
+  let notesArray = getNotesArray();
+  notesArray.forEach((el,i)=>{
+    let clone = setIdToNotes(); 
+    Array.from(Array.from(clone.children)
     .filter(el => el.className == "noteContentContainer")[0].children)
     .filter(el => el.classList.contains("noteContent"))[0].value = note.content
-    clone.style.backgroundColor = note.color;
+    getComputedStyle(clone).backgroundColor = note.color;
+  })
 }
 
-store = (e) => {
-  let notesArray = getNotesArray();
-  let note = e.target.parentNode.parentNode;
-  let id = note.id;
-  let noteContent = e.target.value;
-  let noteColor = note.style.backgroundColor.value;
-
-  let notesObj = {
-    content: noteContent,
-    color: noteColor
-  };
-
-  localStorage.setItem(id, JSON.stringify(notesObj));
-
-  if (!notesArray.includes(id)) {
-    notesArray.push(id);
-    localStorage.setItem("notesArray", JSON.stringify(notesArray))
+getNotesArray = () => {
+  let notesArray = localStorage.getItem("notesArray");
+  if (!notesArray){
+    notesArray = [];
+    localStorage.setItem("notesArray", JSON.stringify(notesArray));
+  } else {
+    notesArray = JSON.parse(notesArray);
   }
+  return notesArray;
 }
