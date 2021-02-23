@@ -10,27 +10,24 @@ let notesNodeList = main.childNodes;  //live node list - dynamically added html 
 let infoBtn = document.getElementById("infoBtn");
 let infoSec = document.querySelector(".infoContainer");
 
-infoBtn.addEventListener("click", function () {
-  infoSec.style.display ==="none" ? infoSec.style.display = "block" : infoSec.style.display = "none";
+infoSec.style.display = "none";
+
+infoBtn.addEventListener("mouseover", function (e) {
+  infoSec.style.display ==="none" ? infoSec.style.display = "block" : infoSec.style.display ==="none"
 });
 
-
-function setIdToNotes(id) {
-  let clone = createNewNote();
-  if (id) {
-    clone.setAttribute("id", id);
-  }
-  return clone; 
-}
+infoBtn.addEventListener("mouseout", (e) => {
+  e.target !== infoBtn || e.target !== infoSec ? infoSec.style.display = "none": infoSec.style.display = "none";
+});
 
 /////////new note  - navbar "+" button
 newNoteBtn.addEventListener("click", createNewNote);
 
 function createNewNote () {
   ///cloning the first note
-  let noteCount = notesNodeList.length;
+  let createID = new Date().getTime()
   let clone = note[0].cloneNode(true);
-  clone.id = noteCount;
+  clone.id = "n"+createID;
   clone.classList.add("stickyNote");
   clone.classList.remove("hide");
   main.appendChild(clone);
@@ -60,6 +57,7 @@ function createNewNote () {
   noteContent.value = "";
   noteContent.addEventListener("change", (e) => store(e));
   //noteContent.addEventListener("onchange", notSavedAlert)
+  return clone;
 }
 
 deleteNote = (e) => {
@@ -74,6 +72,7 @@ deleteNote = (e) => {
     }
   localStorage.setItem("notesArray", JSON.stringify(notesArray));
   removeFromDOM(id);
+  deteteNoteFromStorage(id);
   }
 }
 
@@ -89,7 +88,7 @@ function showColors (e) {
   } else {
     colorChoice.style.display = "flex";
     changeNoteColor(e);
-}
+  }
 };
 
 changeNoteColor = (e) => {
@@ -108,6 +107,11 @@ colorsArr.forEach(el => {
     if ( e.target !== colorChoice) {
       colorChoice.style.display = 'none';
     }
+
+    let id = note.id;
+    if (e.target.id === id){
+      store(e);
+    }
   })
 })}
 
@@ -117,7 +121,7 @@ deleteAll.addEventListener("click", function () {
   deleteAllNotes();
 })
 
-deleteAllNotes = () => {
+const deleteAllNotes = () => {
   localStorage.clear();
 
   let main = document.querySelector("main");
@@ -128,7 +132,36 @@ deleteAllNotes = () => {
   document.querySelector(".noteContent").value = "";
 }
 
+const changeContentOfNote = () => {
+
+}
+
+function deteteNoteFromStorage (id) {
+  let notesArray = getNotesArray();
+  notesArray.forEach((el,i) => {
+    if (id !== el.id) {
+      notesArray.splice(i,1);
+    }
+    localStorage.setItem("notesArray", JSON.stringify(notesArray));
+  })
+}
+
 ////////local storage setup
+window.addEventListener('load', (e) => {
+  getNotesArray();
+  addOldNotesToDOM();
+});
+
+getNotesArray = () => {
+  let notesArray = localStorage.getItem("notesArray");
+  if (notesArray === null){
+    notesArray = [];
+    localStorage.setItem("notesArray", JSON.stringify(notesArray));
+  } else {
+    notesArray = JSON.parse(notesArray);
+  }
+  return notesArray;
+}
 
 const store = (e) => {
   let notesArray = getNotesArray();
@@ -140,49 +173,34 @@ const store = (e) => {
   let notesObj = {
     id: id,
     content: noteContent,
-    color: noteColor
+    color: noteColor,
+    notePosition: "bla",
   };
 
-  if (notesArray === []){
-    notesArray.push(notesObj);
-    localStorage.setItem("notesArray", JSON.stringify(notesArray))
-  } else {
-    notesArray.forEach(el => {
+  if (notesArray.length > 0){
+    notesArray.forEach((el,i) => {
       if (el.id === id){
-        el.content = content;
-        el.color = color;
+        notesArray.splice(i,1, notesObj);
+        localStorage.setItem("notesArray", JSON.stringify(notesArray));
+        console.log(notesArray);
+      } else {
+        notesArray.push(notesObj);
+        localStorage.setItem("notesArray", JSON.stringify(notesArray));
       }
     })
-    localStorage.setItem("notesArray", JSON.stringify(notesArray))
+  } else {
+    notesArray.push(notesObj);
+    localStorage.setItem("notesArray", JSON.stringify(notesArray));
   }
-}
-
-function setIdToNotes(id) {
-  let clone = createNewNote();
-  if (id) {
-    clone.setAttribute("id", id);
-  }
-  return clone; 
 }
 
 function addOldNotesToDOM() {
   let notesArray = getNotesArray();
   notesArray.forEach((el,i)=>{
-    let clone = setIdToNotes(); 
-    Array.from(Array.from(clone.children)
-    .filter(el => el.className == "noteContentContainer")[0].children)
-    .filter(el => el.classList.contains("noteContent"))[0].value = note.content
-    getComputedStyle(clone).backgroundColor = note.color;
+    let clone = createNewNote();
+    clone.id = el.id;
+    let cloneTextArea = document.querySelector(`#${el.id}`).querySelector(".noteContentContainer").getElementsByTagName("textarea")
+    cloneTextArea[0].value = el.content;
+    clone.style.backgroundColor = el.color; 
   })
-}
-
-getNotesArray = () => {
-  let notesArray = localStorage.getItem("notesArray");
-  if (!notesArray){
-    notesArray = [];
-    localStorage.setItem("notesArray", JSON.stringify(notesArray));
-  } else {
-    notesArray = JSON.parse(notesArray);
-  }
-  return notesArray;
 }
